@@ -54,7 +54,7 @@ class _NyayaSahayakScreenState extends State<NyayaSahayakScreen> {
         );
         setState(() {
           locationMessage =
-              'Latitude: ${position.latitude}, Longitude: ${position.longitude}';
+              'Latitud: ${position.latitude}, Longitude: ${position.longitude}';
           latitude = (position.latitude).toInt();
           longitude = (position.longitude).toInt();
           print(latitude);
