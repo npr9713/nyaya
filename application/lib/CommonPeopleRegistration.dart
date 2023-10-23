@@ -17,7 +17,7 @@ class _CommonPeopleRegistrationState extends State<CommonPeopleRegistration> {
   final TextEditingController passwordController = TextEditingController();
 
  Future<void> registerUser() async {
-    final String baseUrl = 'https://8782-120-138-12-27.ngrok.io/registration'; // Replace with your actual Ngrok URL
+    final String baseUrl = 'https://0060-120-138-12-27.ngrok.io/registration'; // Replace with your actual Ngrok URL
  // Replace with your backend API URL
 
     // Validate the input fields
