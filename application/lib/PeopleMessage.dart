@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'PeopleInterface.dart';
 void main() {
   runApp(const MyApp());
 }
