@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class ChatbotPage extends StatefulWidget {
   const ChatbotPage({Key? key}) : super(key: key);
@@ -11,29 +13,43 @@ class _ChatbotPageState extends State<ChatbotPage> {
   final TextEditingController _messageController = TextEditingController();
   final List<ChatMessage> _messages = [];
 
-  void _handleSubmitted(String text) {
-    _messageController.clear();
-    ChatMessage message = ChatMessage(
-      text: text,
-      isUser: true,
-    );
+  bool _loading = false;
+
+  Future<void> _handleSubmitted(String text) async {
+    // Show a loading indicator while waiting for the response
     setState(() {
-      _messages.insert(0, message);
+      _loading = true;
     });
 
-    // Send the user's message to the chatbot backend
-    // You need to integrate with your Python-based chatbot backend here
-
-    // Simulate a response from the chatbot (you should replace this)
-    String botResponse = 'This is a response from the chatbot.';
-
-    ChatMessage botMessage = ChatMessage(
-      text: botResponse,
-      isUser: false,
+    // Send the user's message to the Flask server
+    final response = await http.post(
+      Uri.parse('http://localhost:9500/ask_question'), // Update with your Flask server URL
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'user_input': text,
+      }),
     );
-    setState(() {
-      _messages.insert(0, botMessage);
-    });
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      final botResponse = data['response'] as String;
+
+      ChatMessage message = ChatMessage(
+        text: botResponse,
+        isUser: false,
+      );
+
+      setState(() {
+        _messages.insert(0, message);
+        _loading = false; // Hide loading indicator
+      });
+    } else {
+      // Handle the case where the server returns an error
+      print('Request failed with status: ${response.statusCode}');
+      _loading = false; // Hide loading indicator
+    }
   }
 
   @override
@@ -47,7 +63,7 @@ class _ChatbotPageState extends State<ChatbotPage> {
           Flexible(
             child: ListView.builder(
               padding: EdgeInsets.all(8.0),
-              reverse: true, // To show the latest message at the bottom
+              reverse: true,
               itemCount: _messages.length,
               itemBuilder: (_, int index) => _messages[index],
             ),
@@ -74,7 +90,9 @@ class _ChatbotPageState extends State<ChatbotPage> {
             Flexible(
               child: TextField(
                 controller: _messageController,
-                onSubmitted: _handleSubmitted,
+                onSubmitted: (text) {
+                  _handleSubmitted(text);
+                },
                 decoration: InputDecoration.collapsed(
                   hintText: 'Send a message',
                 ),
@@ -82,7 +100,11 @@ class _ChatbotPageState extends State<ChatbotPage> {
             ),
             IconButton(
               icon: const Icon(Icons.send),
-              onPressed: () => _handleSubmitted(_messageController.text),
+              onPressed: () {
+                if (_loading == false) {
+                  _handleSubmitted(_messageController.text);
+                }
+              },
             ),
           ],
         ),
