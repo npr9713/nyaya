@@ -34,17 +34,17 @@ class NyayaSahayakScreen extends StatefulWidget {
 class _NyayaSahayakScreenState extends State<NyayaSahayakScreen> {
   String? selectedRole = 'Common People';
   List<String> roles = ['Common People', 'Lawyer', 'Jailer'];
-  String locationMessage = '';
-  int latitude = 0;
-  int longitude = 0;
+  //String locationMessage = '';
+  //int latitude = 0;
+  //int longitude = 0;
 
   @override
   void initState() {
     super.initState();
-    _getLocation();
+  //  _getLocation();
   }
 
-  void _getLocation() async {
+  /*void _getLocation() async {
     LocationPermission permission = await Geolocator.requestPermission();
 
     if (permission == LocationPermission.whileInUse) {
@@ -72,7 +72,7 @@ class _NyayaSahayakScreenState extends State<NyayaSahayakScreen> {
       });
     }
   }
-
+*/
   void _handleRoleChange(String? newValue) {
     setState(() {
       selectedRole = newValue;

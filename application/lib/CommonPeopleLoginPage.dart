@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -26,14 +28,14 @@ class _CommonPeopleLoginPageState extends State<CommonPeopleLoginPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Missing Information'),
-          content: Text('Please fill in all fields.'),
+          title: const Text('Missing Information'),
+          content: const Text('Please fill in all fields.'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );
@@ -59,11 +61,12 @@ class _CommonPeopleLoginPageState extends State<CommonPeopleLoginPage> {
       final successMessage = responseData['success'];
       // Handle successful login, you can navigate to the dashboard or other pages here
       // For this example, we'll show a dialog
+      // ignore: use_build_context_synchronously
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Login Successful'),
+            title: const Text('Login Successful'),
             content: Text(successMessage),
             actions: <Widget>[
               TextButton(
@@ -73,10 +76,10 @@ class _CommonPeopleLoginPageState extends State<CommonPeopleLoginPage> {
                   // For example, navigate to CommonPeopleDashboardApp()
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => CommonPeopleDashboardApp()),
+                    MaterialPageRoute(builder: (context) => const CommonPeopleDashboardApp()),
                   );
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -89,14 +92,14 @@ class _CommonPeopleLoginPageState extends State<CommonPeopleLoginPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Login Error'),
+            title: const Text('Login Error'),
             content: Text(errorMessage),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -131,13 +134,13 @@ class _CommonPeopleLoginPageState extends State<CommonPeopleLoginPage> {
             children: <Widget>[
               TextField(
                 controller: emailController,
-                decoration: InputDecoration(labelText: 'Email'),
+                decoration: const InputDecoration(labelText: 'Email'),
               ),
               const SizedBox(height: 20),
               TextField(
                 controller: passwordController,
                 obscureText: true,
-                decoration: InputDecoration(labelText: 'Password'),
+                decoration: const InputDecoration(labelText: 'Password'),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
