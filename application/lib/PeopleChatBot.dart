@@ -23,7 +23,7 @@ class _ChatbotPageState extends State<ChatbotPage> {
 
     // Send the user's message to the Flask server
     final response = await http.post(
-      Uri.parse('http://localhost:9500/ask_question'), // Update with your Flask server URL
+      Uri.parse('https://82df-2401-4900-4df7-4008-b5cf-9a1a-be9c-512.ngrok.io/ask_question'), // Update with your Flask server URL
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
